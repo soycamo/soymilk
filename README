@@ -1,5 +1,15 @@
 soycow.org lyrics database
-now with more rails!
+now with more rails! three of them!!!
+
+Currently, this project is still underway. Background:
+I used to be a translator for mognet.net but always thought
+the system being used was not so great so now that I am
+better at programming than I was at 16, I am writing this
+app for my younger self. This also means that all my
+unpublished translations will be sent forth to the world.
+After becoming a huge fan of Anita Tijoux, I realized
+other people might want to know what she is singing.
+Actually, I missed the thrill of lyrics translation.
 
 Language key:
 en_US - American english (my default. since I am american.)
@@ -13,7 +23,7 @@ person who will be committing to this. potentially other people could
 adapt this db system as well, but... they can make the shots. maybe
 it will be a preference in the nonexistant preferences.
 
-whoa ho. whoa way ho
+whoa ho. whoa way ho. waaaay ho.
 
 love,
 camo.
