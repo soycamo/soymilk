@@ -1,0 +1,62 @@
+!!! 5
+%html{:lang => 'en'}
+  %head
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    %meta{:content => 'text/html; charset=utf-8', 'http-equiv' => 'Content-Type'}
+    %meta{:name => :viewport, :content => 'width=device-width,initial-scale=1'}
+    %title= @title.present? ? "#{@title} | Soymilk Editor" : "Soymilk Editor"
+    =favicon_tag 'favicon.ico'
+    %link{:href => 'http://fonts.googleapis.com/css?family=Varela', :rel => :stylesheet}
+    =stylesheet_link_tag 'bootstrap', 'bootstrap-theme', 'font-awesome.min'
+
+  %body
+    %nav.navbar.navbar-default.navbar-fixed-top
+      .container-fluid
+        .navbar-header
+          = image_tag 'milkbox.png', alt: 'Soymilk Editor home'
+          %button.navbar-toggle.collapsed
+            {:type=>"button", :data => {:toggle => "collapse", :target=>"#sm-mainmenu"}, :aria_expanded=>"false"}
+            %span.sr-only Toggle navigation
+            %i.fa.fa-caret-square-o-down
+        #sm-mainmenu.navbar-collapse.collapse
+          %ul.nav.navbar-nav
+            - project_modules.each do |project_module|
+              %li.dropdown{:class => "navbar-module #{('active' if request.path_info =~ /^#{project_module.path}/)}"}
+                %a.dropdown-toggle{id: "#{project_module.name}-menu", href:url(project_module.path), role:'button',data: {toggle: 'dropdown'}, aria: {haspopup: 'true', expanded:'false'}}
+                  = project_module.human_name
+                  %span.caret
+                %ul.dropdown-menu
+                  %li
+                    =link_to "See all #{project_module.human_name}", url(project_module.path)
+                  %li
+                    =link_to "New #{project_module.human_name}", url(project_module.name, :new)
+                    
+          %ul.nav.navbar-nav.navbar-right
+            %li.navbar-edit-account=link_to tag_icon(:user), url(:accounts, :edit, :id => current_account.id), :title => pat(:profile)
+            %li
+              =button_to :logout, url(:sessions, :destroy), :method => :delete do
+                =content_tag :button, tag_icon('power-off'), :type => :submit, :title => pat(:logout)
+
+
+    .container.main{style: "margin-top: 70px;"}
+      .main-wrapper
+        ={:error => 'danger', :warning => 'warning', :success => 'success', :notice => 'info'}.map { |type, class_name| flash_tag(type, :class => "alert alert-#{class_name} fade in", :bootstrap => true) }.join.html_safe
+        .row= yield
+        .main-wrapper-push
+
+    %footer
+      .footer-wrapper.container
+        %p.pull-left
+          Copyright &copy;
+          =Time.now.year
+          soymilk - Powered by Padrino v.#{Padrino.version}
+        %ul.pull-right.footer-links
+          %li= link_to tag_icon(:home, 'web'), 'http://www.padrinorb.com', :target => :_blank, :class => 'footer-links-link'
+          %li= link_to tag_icon(:heart, 'blog'), 'http://www.padrinorb.com/blog', :target => :_blank, :class => 'footer-links-link'
+          %li= link_to tag_icon(:github, 'code'), 'https://github.com/padrino/padrino-framework', :target => :_blank, :class => 'footer-links-link'
+          %li= link_to tag_icon(:twitter, 'twitter'), 'http://twitter.com/padrinorb', :target => :_blank, :class => 'footer-links-link'
+
+    =javascript_include_tag 'jquery-1.11.0.min', (Padrino.env == :production ? 'bootstrap.min' : 'bootstrap'), :application
