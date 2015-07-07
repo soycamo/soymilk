@@ -1,7 +1,2 @@
-%ul.nav.nav-tabs
-  %li=link_to tag_icon(:list, pat(:list)), url(:songs, :index)
-  %li.active=link_to tag_icon(:plus, pat(:new)), url(:songs, :new)
-
-.tabs-content
-  = form_for :song, url(:songs, :create), :class => 'form-horizontal' do |f|
-    =partial 'songs/form', :locals => { :f => f }
+= form_for :song, url(:songs, :create), :class => 'form-horizontal' do |f|
+  =partial 'songs/form', :locals => { :f => f }
