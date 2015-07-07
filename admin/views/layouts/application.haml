@@ -10,7 +10,7 @@
     %title= @title.present? ? "#{@title} | Soymilk Editor" : "Soymilk Editor"
     =favicon_tag 'favicon.ico'
     %link{:href => 'http://fonts.googleapis.com/css?family=Varela', :rel => :stylesheet}
-    =stylesheet_link_tag 'bootstrap', 'bootstrap-theme', 'font-awesome.min'
+    =stylesheet_link_tag 'bootstrap.min', 'bootstrap-theme', 'font-awesome.min', 'application'
 
   %body
     %nav.navbar.navbar-default.navbar-fixed-top
@@ -41,11 +41,9 @@
                 =content_tag :button, tag_icon('power-off'), :type => :submit, :title => pat(:logout)
 
 
-    .container.main{style: "margin-top: 70px;"}
-      .main-wrapper
-        ={:error => 'danger', :warning => 'warning', :success => 'success', :notice => 'info'}.map { |type, class_name| flash_tag(type, :class => "alert alert-#{class_name} fade in", :bootstrap => true) }.join.html_safe
-        .row= yield
-        .main-wrapper-push
+    .container.main
+      ={:error => 'danger', :warning => 'warning', :success => 'success', :notice => 'info'}.map { |type, class_name| flash_tag(type, :class => "alert alert-#{class_name} fade in", :bootstrap => true) }.join.html_safe
+      .row= yield
 
     %footer
       .footer-wrapper.container
@@ -53,10 +51,5 @@
           Copyright &copy;
           =Time.now.year
           soymilk - Powered by Padrino v.#{Padrino.version}
-        %ul.pull-right.footer-links
-          %li= link_to tag_icon(:home, 'web'), 'http://www.padrinorb.com', :target => :_blank, :class => 'footer-links-link'
-          %li= link_to tag_icon(:heart, 'blog'), 'http://www.padrinorb.com/blog', :target => :_blank, :class => 'footer-links-link'
-          %li= link_to tag_icon(:github, 'code'), 'https://github.com/padrino/padrino-framework', :target => :_blank, :class => 'footer-links-link'
-          %li= link_to tag_icon(:twitter, 'twitter'), 'http://twitter.com/padrinorb', :target => :_blank, :class => 'footer-links-link'
 
     =javascript_include_tag 'jquery-1.11.0.min', (Padrino.env == :production ? 'bootstrap.min' : 'bootstrap'), :application
