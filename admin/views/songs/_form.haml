@@ -1,28 +1,32 @@
 - error = @song.errors.include?(:lyricist)
+- languages = @song.lyrics.pluck(:lang_code).push('new_lang').freeze
 %ul.nav.nav-tabs{role:"tablist"}
-  - @song.lyrics.pluck(:lang_code).push('').each_with_index do |code,i|
+  - languages.each_with_index do |code,i|
     - active = 'active' if i == 0
     %li{role: 'presentation', class: active}
-      %a{href: "##{code || 'new'}", 'aria-controls':"##{code || 'new'}", role:"tab", 'data-toggle':"tab"}
-        - if code.blank? 
-          %em= mat(:lyrics, :add)
+      %a{href: "##{code}", 'aria-controls':"#{code}", role:"tab", 'data-toggle':"tab"}
+        - if code == 'new_lang'
+          %em= pat(:lyric, :add)
         - else
           =code
+-#.tab-content
+  .tab-pane.active#jpn{role:'tabpanel'}
+    %h1 this is jpn!!
+  .tab-pane#new_lang{role:'tabpanel'}
+    %h1 this is not
 .tab-content
-  - @song.lyrics.each_with_index do |lyric,i|
-    %h1=lyric.inspect
-    - active = 'active' if i == 0
-    .tab-pane{role: "tabpanel", id: "#{lyric.lang_code || 'new'}", class: active}
+  = f.fields_for :lyrics do |lf|
+    - active = 'active' if lf.object.lang_code == languages.first
+    - code = lf.object.new_record? ? 'new_lang' : lf.object.lang_code
+    .tab-pane{role: "tabpanel", id: code, class: active}
+      %pre=lf.object.inspect
       .form-group
         = f.label :title
         = f.text_field :title, :class => 'form-control input-large input-with-feedback'
-
-      
-      %button.btn.btn-default.justified{:title => "Show other fields", type:"button", data:{toggle:"collapse", target:"#credits-#{i}"}, aria:{expanded:"false", controls:"credits-#{i}"}}
-        -#=tag_icon("tasks fa-2x", "")
+      %button.btn.btn-default.justified{:title => "Show other fields", type:"button", data:{toggle:"collapse", target:"#credits-#{code}"}, aria:{expanded:"false", controls:"credits-#{code}"}}
         Edit song credits
         %span.caret
-      .collapse{id: "credits-#{i}"}
+      .collapse{id: "credits-#{code}"}
         .form-group{:class => error ? 'has-error' : ''}
           .col-md-4
             = f.label :lyricist
@@ -38,19 +42,16 @@
             = f.label :arranged_by
             = f.text_field :arranged_by, :class => 'form-control input-large input-with-feedback'
             -#%span.help-inline=error ? f.error_message_on(:arranged_by, :class => 'text-error') : pat(:example)
-
-      = f.fields_for :lyrics, lyric do |lf|
-        .form-group
-          = lf.label :lang_code
-          = lf.select :lang_code, :options => LangcodeHelper.option_list,:class => 'form-control input-large input-with-feedback', :include_blank => :true
-        .form-group
-          = lf.label :words
-          = lf.text_area  :words, :class => 'form-control input-large input-with-feedback'
-        .checkbox
-          %label
-            = lf.check_box :canonical
-            = mat(:lyrics, :canonical)
-
+      .form-group
+        = lf.label :lang_code
+        = lf.select :lang_code, :options => LangcodeHelper.option_list,:class => 'form-control input-large input-with-feedback', :include_blank => :true
+      .form-group
+        = lf.label :words
+        = lf.text_area  :words, :class => 'form-control input-large input-with-feedback'
+      .checkbox
+        %label
+          = lf.check_box :canonical
+          = mat(:lyrics, :canonical)
 
 .form-actions.pull-right
   =f.submit pat(:save), :class => 'btn btn-primary'
