@@ -27,7 +27,8 @@ Soymilk::Admin.controllers :songs do
 
   get :edit, :with => :id do
     @title = pat(:edit_title, :model => "song #{params[:id]}")
-    @song = Song.find(params[:id])
+    @song = Song.includes(:lyrics).find(params[:id])
+    @song.lyrics.build
     if @song
       render 'songs/edit'
     else

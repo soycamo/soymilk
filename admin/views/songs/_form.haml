@@ -1,35 +1,55 @@
 - error = @song.errors.include?(:lyricist)
-.form-group
-  = f.label :title
-  = f.text_field :title, :class => 'form-control input-large input-with-feedback'
+%ul.nav.nav-tabs{role:"tablist"}
+  - @song.lyrics.pluck(:lang_code).push('').each_with_index do |code,i|
+    - active = 'active' if i == 0
+    %li{role: 'presentation', class: active}
+      %a{href: "##{code || 'new'}", 'aria-controls':"##{code || 'new'}", role:"tab", 'data-toggle':"tab"}
+        - if code.blank? 
+          %em= mat(:lyrics, :add)
+        - else
+          =code
+.tab-content
+  - @song.lyrics.each_with_index do |lyric,i|
+    %h1=lyric.inspect
+    - active = 'active' if i == 0
+    .tab-pane{role: "tabpanel", id: "#{lyric.lang_code || 'new'}", class: active}
+      .form-group
+        = f.label :title
+        = f.text_field :title, :class => 'form-control input-large input-with-feedback'
 
-.form-group{:class => error ? 'has-error' : ''}
-  .col-md-4
-    = f.label :lyricist
-    = f.text_field :lyricist, :class => 'form-control input-large input-with-feedback', :autofocus => true
-    -#%span.help-inline=error ? f.error_message_on(:lyricist, :class => 'text-error') : pat(:example)
-  - error = @song.errors.include?(:composer)
-  .col-md-4
-    = f.label :composer
-    = f.text_field :composer, :class => 'form-control input-large input-with-feedback'
-    -#%span.help-inline=error ? f.error_message_on(:composer, :class => 'text-error') : pat(:example)
-  - error = @song.errors.include?(:arranged_by)
-  .col-md-4
-    = f.label :arranged_by
-    = f.text_field :arranged_by, :class => 'form-control input-large input-with-feedback'
-    -#%span.help-inline=error ? f.error_message_on(:arranged_by, :class => 'text-error') : pat(:example)
+      
+      %button.btn.btn-default.justified{:title => "Show other fields", type:"button", data:{toggle:"collapse", target:"#credits-#{i}"}, aria:{expanded:"false", controls:"credits-#{i}"}}
+        -#=tag_icon("tasks fa-2x", "")
+        Edit song credits
+        %span.caret
+      .collapse{id: "credits-#{i}"}
+        .form-group{:class => error ? 'has-error' : ''}
+          .col-md-4
+            = f.label :lyricist
+            = f.text_field :lyricist, :class => 'form-control input-large input-with-feedback', :autofocus => true
+            -#%span.help-inline=error ? f.error_message_on(:lyricist, :class => 'text-error') : pat(:example)
+          - error = @song.errors.include?(:composer)
+          .col-md-4
+            = f.label :composer
+            = f.text_field :composer, :class => 'form-control input-large input-with-feedback'
+            -#%span.help-inline=error ? f.error_message_on(:composer, :class => 'text-error') : pat(:example)
+          - error = @song.errors.include?(:arranged_by)
+          .col-md-4
+            = f.label :arranged_by
+            = f.text_field :arranged_by, :class => 'form-control input-large input-with-feedback'
+            -#%span.help-inline=error ? f.error_message_on(:arranged_by, :class => 'text-error') : pat(:example)
 
-= f.fields_for :lyrics do |lf|
-  .form-group
-    = lf.label :lang_code
-    = lf.text_field :lang_code, :class => 'form-control input-large input-with-feedback'
-  .form-group
-    = lf.label :words
-    = lf.text_area  :words, :class => 'form-control input-large input-with-feedback'
-  .checkbox
-    %label
-      = lf.check_box :canonical
-      = mat(:lyrics, :canonical)
+      = f.fields_for :lyrics, lyric do |lf|
+        .form-group
+          = lf.label :lang_code
+          = lf.select :lang_code, :options => LangcodeHelper.option_list,:class => 'form-control input-large input-with-feedback', :include_blank => :true
+        .form-group
+          = lf.label :words
+          = lf.text_area  :words, :class => 'form-control input-large input-with-feedback'
+        .checkbox
+          %label
+            = lf.check_box :canonical
+            = mat(:lyrics, :canonical)
 
 
 .form-actions.pull-right

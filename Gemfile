@@ -11,6 +11,8 @@ source 'https://rubygems.org'
 
 # Project requirements
 gem 'rake'
+#gem 'bcp47', '~> 0.3.3'
+gem 'iso-639'
 
 # Component requirements
 gem 'bcrypt'
@@ -23,7 +25,7 @@ group :testing do
   gem 'minitest'
   gem 'rack-test'
 end
-gem 'pry'
+gem 'pry', group: [:testing, :development]
 
 # Padrino Stable Gem
 gem 'padrino', '0.12.5'

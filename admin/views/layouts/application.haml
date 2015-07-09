@@ -13,12 +13,11 @@
     =stylesheet_link_tag 'bootstrap.min', 'bootstrap-theme', 'font-awesome.min', 'application'
 
   %body
-    %nav.navbar.navbar-default.navbar-fixed-top
+    %nav.navbar.navbar-default
       .container-fluid
         .navbar-header
           = image_tag 'milkbox.png', alt: 'Soymilk Editor home'
-          %button.navbar-toggle.collapsed
-            {:type=>"button", :data => {:toggle => "collapse", :target=>"#sm-mainmenu"}, :aria_expanded=>"false"}
+          %button.navbar-toggle.collapsed{:type=>"button", :data => {:toggle => "collapse", :target=>"#sm-mainmenu"}, :aria_expanded=>"false"}
             %span.sr-only Toggle navigation
             %i.fa.fa-caret-square-o-down
         #sm-mainmenu.navbar-collapse.collapse
@@ -41,7 +40,7 @@
                 =content_tag :button, tag_icon('power-off'), :type => :submit, :title => pat(:logout)
 
 
-    .container.main
+    .container-fluid.main
       ={:error => 'danger', :warning => 'warning', :success => 'success', :notice => 'info'}.map { |type, class_name| flash_tag(type, :class => "alert alert-#{class_name} fade in", :bootstrap => true) }.join.html_safe
       .row= yield
 

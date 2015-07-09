@@ -1,2 +1,2 @@
-= form_for :song, url(:songs, :update, :id => @song.id), :method => :put, :class => 'form-horizontal' do |f|
+= form_for :song, url(:songs, :update, :id => @song.id), :method => :put do |f|
   =partial 'songs/form', :locals => { :f => f }

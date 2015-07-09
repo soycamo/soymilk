@@ -1,0 +1,14 @@
+en:
+  models:
+    lyric:
+      name: Lyric
+      attributes:
+        id: Id
+        song_id: Song
+        words: Words
+        lang_code: Language
+        canonical: Canonical
+        created_at: Created at
+        updated_at: Updated at
+        title_translation: Title translation
+        add: Add translation

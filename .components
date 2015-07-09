@@ -1,0 +1,9 @@
+---
+:orm: activerecord
+:test: minitest
+:mock: none
+:script: none
+:renderer: haml
+:stylesheet: none
+:namespace: Soymilk 
+:migration_format: number
