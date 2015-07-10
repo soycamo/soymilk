@@ -5,4 +5,10 @@ class Song < ActiveRecord::Base
   def translations
     self.lyrics.where(canonical: false)
   end
+  def canonical_languages
+    self.lyrics.where(canonical: true).pluck(:lang_code)
+  end
+  def title
+    self.lyrics.where(canonical: true).pluck(:title_in_language).join(" / ")
+  end
 end

@@ -2,6 +2,8 @@ en:
   models:
     lyric:
       name: Lyric
+      add: Add translation
+      new: New translation
       attributes:
         id: Id
         song_id: Song
@@ -10,5 +12,4 @@ en:
         canonical: Canonical
         created_at: Created at
         updated_at: Updated at
-        title_translation: Title translation
-        add: Add translation
+        title_in_language: Title 

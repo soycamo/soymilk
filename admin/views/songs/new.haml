@@ -1,2 +1,2 @@
-= form_for :song, url(:songs, :create), :class => 'form-horizontal' do |f|
-  =partial 'songs/form', :locals => { :f => f }
+= form_for :song, url(:songs, :create) do |f|
+  =partial 'songs/form', :locals => { :f => f, :languages => SongHelper.languages(@song) }

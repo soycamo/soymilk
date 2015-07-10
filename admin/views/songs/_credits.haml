@@ -1,0 +1,21 @@
+- error = @song.errors.include?(:lyricist)
+%button.btn.btn-default.justified{:title => "Show other fields", type:"button", data:{toggle:"collapse", target:"#credits-#{code}"}, aria:{expanded:"false", controls:"credits-#{code}"}}
+  Edit song credits
+  %span.caret
+.collapse{id: "credits-#{code}"}
+  .form-group{:class => error ? 'has-error' : ''}
+    .col-md-4
+      = f.label :lyricist
+      = f.text_field :lyricist, :class => 'form-control input-large input-with-feedback', :autofocus => true
+      -#%span.help-inline=error ? f.error_message_on(:lyricist, :class => 'text-error') : pat(:example)
+    - error = @song.errors.include?(:composer)
+    .col-md-4
+      = f.label :composer
+      = f.text_field :composer, :class => 'form-control input-large input-with-feedback'
+      -#%span.help-inline=error ? f.error_message_on(:composer, :class => 'text-error') : pat(:example)
+    - error = @song.errors.include?(:arranged_by)
+    .col-md-4
+      = f.label :arranged_by
+      = f.text_field :arranged_by, :class => 'form-control input-large input-with-feedback'
+      -#%span.help-inline=error ? f.error_message_on(:arranged_by, :class => 'text-error') : pat(:example)
+

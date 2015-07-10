@@ -1,2 +1,14 @@
+- languages = SongHelper.languages(@song)
 = form_for :song, url(:songs, :update, :id => @song.id), :method => :put do |f|
-  =partial 'songs/form', :locals => { :f => f }
+  %ul.nav.nav-tabs{role:"tablist"}
+    - languages.each_with_index do |code,i|
+      - active = 'active' if i == 0
+      %li{role: 'presentation', class: active}
+        %a{href: "##{code}", 'aria-controls':"#{code}", role:"tab", 'data-toggle':"tab"}
+          = tag_icon('star') if @song.canonical_languages.include?(code) 
+          - if code == 'new_lang'
+            %em= pat(:lyric, :add)
+          - else
+            =code
+  .tab-content
+    = partial 'songs/form', :locals => { :f => f, :languages => languages }

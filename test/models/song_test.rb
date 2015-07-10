@@ -4,8 +4,14 @@ require 'pry'
 class TestSong < Minitest::Test
   def setup
     @song = Song.create
-    @song.lyrics.build(canonical: true)
+    @song.lyrics.build(canonical: true, lang_code: 'spa')
   end
+  def teardown
+    @song.lyrics.destroy_all
+    @song.destroy
+  end
+
+
   def test_no_translations
     assert_equal(@song.translations.count, 0)
   end
@@ -13,8 +19,9 @@ class TestSong < Minitest::Test
     @song.lyrics.create(canonical: false)
     assert_equal(@song.translations.count, 1)
   end
-  def teardown
-    @song.lyrics.destroy_all
-    @song.destroy
+
+  def test_canonical_languages
+    @song.save
+    assert_includes(@song.canonical_languages, 'spa')
   end
 end
