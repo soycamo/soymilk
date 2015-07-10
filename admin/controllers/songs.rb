@@ -2,7 +2,8 @@ Soymilk::Admin.controllers :songs do
   get :index do
     @title = "Songs"
     @songs = Song.all
-    render 'songs/index'
+    page = @songs.count == 0 ? 'base/index' : 'songs/index'
+    render page
   end
 
   get :new do

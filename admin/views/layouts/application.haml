@@ -44,11 +44,6 @@
       ={:error => 'danger', :warning => 'warning', :success => 'success', :notice => 'info'}.map { |type, class_name| flash_tag(type, :class => "alert alert-#{class_name} fade in", :bootstrap => true) }.join.html_safe
       .row= yield
 
-    %footer
-      .footer-wrapper.container
-        %p.pull-left
-          Copyright &copy;
-          =Time.now.year
-          soymilk - Powered by Padrino v.#{Padrino.version}
+    -#%footer
 
     =javascript_include_tag 'jquery-1.11.0.min', (Padrino.env == :production ? 'bootstrap.min' : 'bootstrap'), :application
