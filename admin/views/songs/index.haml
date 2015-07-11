@@ -38,8 +38,8 @@
         %td.list-column=time_ago_in_words song.updated_at
         %td.list-column.list-row-action
           .list-row-action-wrapper
-            =link_to tag_icon(:edit), :href => url(:songs, :edit, :id => song.id), :rel => :tooltip, :title => "#{pat(:edit)} song", :class => 'list-row-action-wrapper-link'
-            =link_to tag_icon('trash-o'), :rel => :tooltip, :title => "#{pat(:delete)} song", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
+            =link_to tag_icon('edit fa-2x'), :href => url(:songs, :edit, :id => song.id), :rel => :tooltip, :title => "#{pat(:edit)} song", :class => 'list-row-action-wrapper-link'
+            =link_to tag_icon('trash-o fa-2x'), :rel => :tooltip, :title => "#{pat(:delete)} song", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
             .popover.list-row-action-popover-delete-one.left
               .arrow
               %h3.popover-title=pat(:delete, :model => "song")
