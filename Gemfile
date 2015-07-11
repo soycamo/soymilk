@@ -23,7 +23,9 @@ gem 'sqlite3'
 # Test requirements
 group :testing do
   gem 'minitest'
+  gem 'minitest-capybara'
   gem 'rack-test'
+  gem 'launchy'
 end
 gem 'pry', group: [:testing, :development]
 
